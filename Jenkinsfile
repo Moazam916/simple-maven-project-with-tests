@@ -1,5 +1,5 @@
 node ('master'){
-  checkout scm {
+  checkout scm 
     stage ('Build'){
       withMaven (maven: 'M3'){
         if (isUnix()){
