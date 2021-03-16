@@ -1,19 +1,22 @@
-node ('master'){
-  checkout scm {
-    stage ('Build'){
-      withMaven (maven: 'M3'){
-        if (isUnix()){
-          sh 'mvn -Dmaven.test.failure.ignore clean package'
+     label 'master'
+    }
+    
+  }
+  stages {
+    stage('Build') {
+      steps {
+        withMaven(maven: 'M3') {
+          bat 'mvn clean install'
+          bat 'Hello world'
         }
-        else{
-          bat 'mvn -Dmaven.test.failure.ignore clean package'
-        }
+        
       }
     }
-    stage ('Result'){
-      junit '**/target/surefire-reports/TEST-*.xml'
-      archive 'target/*.jar'
+    stage('Results') {
+      steps {
+        junit '**/target/surefire-reports/TEST-*.xml'
+        archiveArtifacts 'target/*.jar'
+      }
     }
   }
-  
-    
+}
